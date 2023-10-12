@@ -1,7 +1,16 @@
 <?php
-include_once("globals.php");
-include_once("db.php");
-$flassMessage = [];
+require_once("globals.php");
+require_once("db.php");
+require_once("models/Message.php");
+
+$message = new Message($BASE_URL);
+
+$flassMessage = $message->getMessage();
+
+if(!empty($flassMessage['msg'])) {
+  // Limpar a mensagem
+  $message->clearMessage();
+}
 ?>
 
 <!DOCTYPE html>
