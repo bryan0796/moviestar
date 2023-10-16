@@ -64,6 +64,8 @@ if ($type === 'register') {
   // Tenta autenticar o usuário
   if($userDao->authenticateUser($email, $password)) {
 
+    $message->setMessage("Seja bem-vindo!", "sucess", "editprofile.php");
+
     //Redireciona o usuário, caso não consiga autenticar
   } else {
     $message->setMessage("Usuário e/ou senha incorretos.", "error", "back");
