@@ -9,12 +9,12 @@ $userDao = new UserDAO($conn, $BASE_URL);
 $userData = $userDao->verifyToken(true);
 $fullName = $user->getFullName($userData);
 
-if ($userData->image = null) {
-  $userData->image = "img/users/user.png";
+if ($userData->image == null) {
+  $userData->image = "user.png";
 }
 ?>
 
-<div id="main-container" class="container-fluid">
+<div id="main-container" class="container-fluid edit-profile-page">
   <div class="col-md-12">
     <form action="<?= $BASE_URL ?>/user_process.php" method="post" enctype="multipart/form-data">
       <input type="hidden" name="type" value="update">
@@ -36,11 +36,12 @@ if ($userData->image = null) {
             <label for="email">E-mail:</label>
             <input type="text" readonly class="form-control disabled" id="email" name="email" value="<?= $userData->email ?>">
           </div>
-          <input type="submit" class="btn form-btn" value="Alterar">
+          <input type="submit" class="btn card-btn" value="Alterar">
         </div>
         <div class="col-md-4">
-          <div id="profile-image-container" style="background-image: url(`<?= $BASE_URL ?>/img/users/<?= $userData->image ?>`)">
+          <div id="profile-image-container" style="background-image: url('<?=$BASE_URL?>/img/users/<?=$userData->image?>')">
           </div>
+        
           <div class="form-group">
             <label for="image">Foto:</label>
             <input type="file" class="form-control-file" name="image">
@@ -66,7 +67,7 @@ if ($userData->image = null) {
             <label for="confirmpassword">Confirmação de senha:</label>
             <input type="password" class="form-control-file" name="confirmpassword" placeholder="Confirme sua nova senha">
           </div>
-          <input type="submit" class="btn form-btn" value="Alterar Senha" >
+          <input type="submit" class="btn card-btn" value="Alterar Senha" >
         </form>
       </div>
     </div>
