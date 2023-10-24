@@ -59,6 +59,8 @@ if ($userData->image == null) {
         <p class="page-description">Digite a nova senha, e confirme para alterar:</p>
         <form action="<?= $BASE_URL ?>/user_process.php" method="post" >
           <input type="hidden" name="type" value="changepassword" >
+          <input type="hidden" name="id" value="<?= $userData->id ?>" >
+
           <div class="form-group">
             <label for="password">Senha:</label>
             <input type="password" class="form-control-file" name="password" placeholder="Digite sua nova senha">

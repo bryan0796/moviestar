@@ -179,10 +179,20 @@ class UserDAO implements UserDAOInterface
     // Remove o token da session
     $_SESSION['token'] = "";
     // Redireciona e apresenta a mensagem de sucesso
-    $this->message->setMessage("Você fez o logout com sucesso!", "success", "index.php");
+    $this->message->setMessage("Você fez o logout com sucesso!", "sucess", "index.php");
   }
   public function changePassword(User $user)
   {
+    $stmt = $this->conn->prepare("UPDATE users SET
+      password = :password
+      WHERE id = :id
+    ");
 
+    $stmt->bindParam(":password", $user->password);
+    $stmt->bindParam(":id", $user->id);
+    $stmt->execute();
+
+    // Redireciona e apresenta a mensagem de sucesso
+    $this->message->setMessage("Senha alterada com sucesso!", "sucess", "editprofile.php");
   }
 }
