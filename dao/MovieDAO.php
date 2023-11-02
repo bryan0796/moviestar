@@ -97,7 +97,7 @@ class MovieDAO implements MovieDAOInterface
     $stmt->execute();
 
     if($stmt->rowCount() > 0) {
-      $movieData = $stmt->fetchAll();
+      $movieData = $stmt->fetch();
       $movie = $this->buildMovie($movieData);
       return $movie;
     } else {
