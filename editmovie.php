@@ -14,7 +14,6 @@ $userData = $userDao->verifyToken(true);
 $movieDao = new MovieDAO($conn, $BASE_URL);
 
 $id = filter_input(INPUT_GET, "id");
-print_r($id);
 
 if (empty($id)) {
   $message->setMessage("O filme não foi encontrado!", "error", "index.php");
@@ -48,7 +47,7 @@ if ($movie->image == "") {
         <form id="edit-movie-form" action="<?= $BASE_URL ?>/movie_process.php" method="post" enctype="multipart">
 
           <input type="hidden" name="type" value="update">
-          <input type="hidden" name="type" value="<?= $movie->id ?>">
+          <input type="hidden" name="id" value="<?= $movie->id ?>">
 
           <div class="form-group">
             <label for="title">Título:</label>
