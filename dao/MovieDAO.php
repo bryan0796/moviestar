@@ -20,7 +20,8 @@ class MovieDAO implements MovieDAOInterface
     $this->message = new Message($url);
   }
 
-  public function buildMovie($data){
+  public function buildMovie($data)
+  {
 
     $movie = new Movie();
 
@@ -42,70 +43,75 @@ class MovieDAO implements MovieDAOInterface
 
     return $movie;
   }
-  public function findAll(){
+  public function findAll()
+  {
 
   }
-  public function getLatestMovies(){
+  public function getLatestMovies()
+  {
     $movies = [];
     $stmt = $this->conn->query("SELECT * FROM movies ORDER BY id DESC");
     $stmt->execute();
 
-    if($stmt->rowCount() > 0) {
+    if ($stmt->rowCount() > 0) {
       $moviesArray = $stmt->fetchAll();
 
-      foreach($moviesArray as $movie) {
+      foreach ($moviesArray as $movie) {
         $movies[] = $this->buildMovie($movie);
       }
     }
 
     return $movies;
   }
-  public function getMoviesByCategory($category){
+  public function getMoviesByCategory($category)
+  {
     $movies = [];
     $stmt = $this->conn->prepare("SELECT * FROM movies
                                   WHERE category = :category
                                    ORDER BY id DESC");
 
-    $stmt->bindParam(":category",$category);                               
+    $stmt->bindParam(":category", $category);
     $stmt->execute();
 
-    if($stmt->rowCount() > 0) {
+    if ($stmt->rowCount() > 0) {
       $moviesArray = $stmt->fetchAll();
 
-      foreach($moviesArray as $movie) {
+      foreach ($moviesArray as $movie) {
         $movies[] = $this->buildMovie($movie);
       }
     }
 
     return $movies;
   }
-  public function getMoviesByUserId($id){
+  public function getMoviesByUserId($id)
+  {
     $movies = [];
     $stmt = $this->conn->prepare("SELECT * FROM movies
                                   WHERE users_id = :users_id");
 
-    $stmt->bindParam(":users_id",$id);                               
+    $stmt->bindParam(":users_id", $id);
     $stmt->execute();
 
-    if($stmt->rowCount() > 0) {
+    if ($stmt->rowCount() > 0) {
       $moviesArray = $stmt->fetchAll();
 
-      foreach($moviesArray as $movie) {
+      foreach ($moviesArray as $movie) {
         $movies[] = $this->buildMovie($movie);
       }
     }
 
     return $movies;
   }
-  public function findById($id){
+  public function findById($id)
+  {
     $movie = [];
     $stmt = $this->conn->prepare("SELECT * FROM movies
                                   WHERE id = :id");
 
-    $stmt->bindParam(":id",$id);                               
+    $stmt->bindParam(":id", $id);
     $stmt->execute();
 
-    if($stmt->rowCount() > 0) {
+    if ($stmt->rowCount() > 0) {
       $movieData = $stmt->fetch();
       $movie = $this->buildMovie($movieData);
       return $movie;
@@ -114,10 +120,29 @@ class MovieDAO implements MovieDAOInterface
     }
 
   }
-  public function findByTitle($title){
+  public function findByTitle($title)
+  {
+
+    $movies = [];
+    $stmt = $this->conn->prepare("SELECT * FROM movies
+                                  WHERE title LIKE :title");
+
+    $stmt->bindValue(":title", '%'.$title.'%' );
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+      $moviesArray = $stmt->fetchAll();
+
+      foreach ($moviesArray as $movie) {
+        $movies[] = $this->buildMovie($movie);
+      }
+    }
+
+    return $movies;
 
   }
-  public function create(Movie $movie){
+  public function create(Movie $movie)
+  {
 
     $stmt = $this->conn->prepare("INSERT INTO movies (title, description, image, trailer, category, length, users_id)
     VALUES (:title, :description, :image, :trailer, :category, :length, :users_id)");
@@ -136,7 +161,8 @@ class MovieDAO implements MovieDAOInterface
     $this->message->setMessage("Filme adicionado com sucesso!", "sucess", "index.php");
 
   }
-  public function update(Movie $movie) {
+  public function update(Movie $movie)
+  {
 
     $stmt = $this->conn->prepare("UPDATE movies SET
       title = :title,
@@ -162,7 +188,8 @@ class MovieDAO implements MovieDAOInterface
     $this->message->setMessage("Filme atualizado com sucesso!", "sucess", "dashboard.php");
 
   }
-  public function destroy($id){
+  public function destroy($id)
+  {
     $stmt = $this->conn->prepare("DELETE FROM movies WHERE id = :id");
     $stmt->bindParam(":id", $id);
     $stmt->execute();
