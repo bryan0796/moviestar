@@ -43,10 +43,7 @@ class MovieDAO implements MovieDAOInterface
 
     return $movie;
   }
-  public function findAll()
-  {
 
-  }
   public function getLatestMovies()
   {
     $movies = [];
